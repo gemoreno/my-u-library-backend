@@ -63,6 +63,6 @@ class CheckoutRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckoutRecord
         fields = [
-            'id', 'user', 'book', 'date_out', 'is_returned', 'date_returned',
+            'id', 'user', 'book', 'date_out', 'returned', 'date_returned',
             'user_email', 'user_first_name', 'user_last_name', 'book_title'
         ]

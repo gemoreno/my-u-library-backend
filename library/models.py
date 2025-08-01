@@ -65,6 +65,6 @@ class Book(models.Model):
 class CheckoutRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="checkout_records")
-    is_returned = models.BooleanField(default=False)
+    returned = models.BooleanField(default=False)
     date_out = models.DateTimeField(auto_now_add=True)
     date_returned = models.DateTimeField(null=True, blank=True)

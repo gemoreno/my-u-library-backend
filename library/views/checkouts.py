@@ -34,7 +34,6 @@ def list_checkouts(request):
         user__last_name__icontains=last_name,
         user__email__icontains=email,
         book__title__icontains=title,
-        is_returned=False
     )
 
     serializer = CheckoutRecordSerializer(checkouts, many=True)
@@ -48,10 +47,10 @@ def return_book(request, checkout_id):
 
     checkout = get_object_or_404(CheckoutRecord, id=checkout_id)
     
-    if checkout.is_returned:
+    if checkout.returned:
         return Response({'message': 'Book already returned.'}, status=400)
     
-    checkout.is_returned = True
+    checkout.returned = True
     checkout.date_returned = timezone.now()
     checkout.save()
 

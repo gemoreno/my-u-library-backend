@@ -37,7 +37,7 @@ def filtered_checked_books(request):
 
     checkouts = CheckoutRecord.objects.select_related('book').filter(
         user=request.user,
-        is_returned=False,
+        returned=False,
         book__title__icontains=title,
         book__author__icontains=author,
         book__genre__icontains=genre
