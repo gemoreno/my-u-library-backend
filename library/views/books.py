@@ -11,9 +11,9 @@ from django.db.models import Count, Q, F, ExpressionWrapper, IntegerField
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def filtered_books(request):
-    title = request.GET.get('title', '')
-    author = request.GET.get('author', '')
-    genre = request.GET.get('genre', '')
+    title = request.GET.get('title', '').strip()
+    author = request.GET.get('author', '').strip()
+    genre = request.GET.get('genre', '').strip()
 
     books = Book.objects.filter(
         title__icontains=title,
@@ -30,7 +30,7 @@ def filtered_books(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated | IsStudent])
+@permission_classes([IsStudent])
 def checkout_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if book.stock <= 0:
