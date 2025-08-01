@@ -3,8 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from library.permissions.roles import IsStudent
-from ..models import Book, CheckoutRecord
+from ..models import Book
 from ..serializers import BookSerializer
 from django.db.models import Count, Q, F, ExpressionWrapper, IntegerField
 
@@ -28,13 +27,3 @@ def filtered_books(request):
 
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)
-
-@api_view(['POST'])
-@permission_classes([IsStudent])
-def checkout_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    if book.stock <= 0:
-        return Response({"error": "No copies available."}, status=400)
-    
-    CheckoutRecord.objects.create(student=request.user, book=book)
-    return Response({"message": "Book checked out successfully."})

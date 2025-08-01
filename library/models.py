@@ -63,7 +63,7 @@ class Book(models.Model):
         return self.title
 
 class CheckoutRecord(models.Model):
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="checkout_records")
     is_returned = models.BooleanField(default=False)
     date_out = models.DateTimeField(auto_now_add=True)

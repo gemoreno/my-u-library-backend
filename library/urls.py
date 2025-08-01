@@ -1,11 +1,13 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from library.views import books, auth
+from library.views import books, auth, checkouts
 from library.views.auth import EmailTokenObtainPairView
 
 urlpatterns = [
     path('books/', books.filtered_books, name='fetch_filtered_books'),
-    path('checkout/<int:book_id>/', books.checkout_book, name='checkout_book'),
+    path('checkouts/checkout_book/<int:book_id>/', checkouts.checkout_book, name='checkout_book'),
+    path('checkouts/', checkouts.list_checkouts, name='list_checkouts'),
+    path('checkouts/<int:checkout_id>/return/', checkouts.return_book, name='return_book'),
 ]
 
 urlpatterns += [
