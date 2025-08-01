@@ -1,15 +1,7 @@
 from rest_framework import serializers
-from .models import Book
+from .models import Book, CheckoutRecord
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class BookSerializer(serializers.ModelSerializer):
-    available = serializers.IntegerField(read_only=True)
-
-    class Meta:
-        model = Book
-        fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available']
         
         
 User = get_user_model()
@@ -31,3 +23,25 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+
+
+class BookSerializer(serializers.ModelSerializer):
+    available = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Book
+        fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available']
+        
+        
+class CheckoutSerializer(serializers.ModelSerializer):
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+    user_first_name = serializers.CharField(source='user.first_name', read_only=True)
+    user_last_name = serializers.CharField(source='user.last_name', read_only=True)
+    book_title = serializers.CharField(source='book.title', read_only=True)
+
+    class Meta:
+        model = CheckoutRecord
+        fields = [
+            'id', 'user', 'book', 'checked_out_at', 'returned',
+            'user_email', 'user_first_name', 'user_last_name', 'book_title'
+        ]
