@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from library.permissions.roles import IsLibrarian
 from ..models import Book, CheckoutRecord
-from ..serializers import CheckoutSerializer
+from ..serializers import CheckoutRecordSerializer
 from library.permissions.roles import IsStudent
 
 @api_view(['POST'])
@@ -37,7 +37,7 @@ def list_checkouts(request):
         is_returned=False
     )
 
-    serializer = CheckoutSerializer(checkouts, many=True)
+    serializer = CheckoutRecordSerializer(checkouts, many=True)
     return Response(serializer.data)
 
 @api_view(['PATCH'])

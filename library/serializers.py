@@ -39,8 +39,22 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available']
         
+
+class BookWithCheckoutDateSerializer(serializers.ModelSerializer):
+    checkout_date = serializers.DateTimeField(source='date_out')
+    title = serializers.CharField(source='book.title', read_only=True)
+    genre = serializers.CharField(source='book.genre', read_only=True)
+    author = serializers.CharField(source='book.author', read_only=True)
+    year_published = serializers.IntegerField(source='book.year_published', read_only=True)
+    stock = serializers.IntegerField(source='book.stock', read_only=True)
+    available = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = CheckoutRecord
+        fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available', 'checkout_date']
         
-class CheckoutSerializer(serializers.ModelSerializer):
+        
+class CheckoutRecordSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(source='user.email', read_only=True)
     user_first_name = serializers.CharField(source='user.first_name', read_only=True)
     user_last_name = serializers.CharField(source='user.last_name', read_only=True)
