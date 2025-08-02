@@ -20,7 +20,7 @@ def filtered_books(request):
         genre__icontains=genre
     ).annotate(
         available=ExpressionWrapper(
-            F('stock') - Count('checkout_records', filter=Q(checkout_records__is_returned=False)),
+            F('stock') - Count('checkout_records', filter=Q(checkout_records__returned=False)),
             output_field=IntegerField()
         )
     )
