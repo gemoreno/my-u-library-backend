@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: my-u-lib-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn core.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: core.settings
+      - key: SECRET_KEY
+        value: your_django_secret_key
+      - key: DEBUG
+        value: False
+      - key: DATABASE_URL
+        fromDatabase:
+          name: my-database-name
+          property: connectionString
