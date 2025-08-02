@@ -68,11 +68,18 @@ DJANGO_SETTINGS_MODULE=core.settings
 5. **Run migrations and create superuser**
 
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
 
-6. **Start development server**
+6. **Populate database with initial data**
+
+```bash
+python manage.py seed_data
+```
+
+7. **Start development server**
 
 ```bash
 python manage.py runserver
@@ -82,17 +89,18 @@ python manage.py runserver
 
 ## 🌐 API Overview
 
-| Endpoint             | Method | Description                          |
-|----------------------|--------|--------------------------------------|
-| `/api/token/`        | POST   | Obtain JWT token                     |
-| `/api/token/refresh/`| POST   | Refresh JWT                          |
-| `/api/auth/me/`      | GET    | Get current user info                |
-| `/api/users/`        | POST   | Admin/librarian creates new user     |
-| `/api/books/`        | GET/POST | Search or add books               |
-| `/api/checkouts/`    | POST   | Checkout a book                      |
-| `/api/returns/`      | POST   | Return a book                        |
+| Endpoint                                      | Method   | Description                          |
+|-----------------------------------------------|----------|--------------------------------------|
+| `/api/token/`                                 | POST     | Obtain JWT token                     |
+| `/api/token/refresh/`                         | POST     | Refresh JWT                          |
+| `/api/auth/me/`                               | GET      | Get current user info                |
+| `/api/auth/register/`                         | POST     | Admin/librarian creates new user     |
+| `/api/books/`                                 | GET/POST | Search or add books                  |
+| `/api/checkouts/`                             | POST     | List checked out books               |
+| `/api/checkouts/checkout_book/<int:book_id>/` | POST     | Checkout a book                      |
+| `/api/checkouts/<int:checkout_id>/return/`    | POST     | Return a book                        |
 
-All endpoints use JSON format and are protected using role-based permissions.
+All endpoints use JSON format and are authenticated using role-based permissions. Only book search and auth are public.
 
 ---
 
