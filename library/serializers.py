@@ -7,10 +7,25 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 User = get_user_model()
 
 
-class MeSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'first_name', 'last_name', 'role']
+        
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=6)
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'role', 'password']
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)  # Hashes the password properly
+        user.save()
+        return user
 
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -32,13 +47,22 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BooksSerializer(serializers.ModelSerializer):
     available = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Book
         fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available']
         
+class AddedBookSerializer(serializers.ModelSerializer):
+    available = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Book
+        fields = ['id', 'title', 'author', 'genre', 'year_published', 'stock', 'available']
+        
+    def get_available(self, obj):
+        return obj.stock
 
 class BookWithCheckoutDateSerializer(serializers.ModelSerializer):
     checkout_date = serializers.DateTimeField(source='date_out')

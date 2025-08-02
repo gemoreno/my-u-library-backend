@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
+from django.db.models import Q
 
-  
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -59,8 +59,16 @@ class Book(models.Model):
     genre = models.CharField(max_length=50)
     stock = models.IntegerField(default=0)
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'author'],
+                name='unique_book_and_author'
+            )
+        ]
+    
     def __str__(self):
-        return self.title
+        return f"{self.title} by {self.author}"
 
 class CheckoutRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -68,3 +76,12 @@ class CheckoutRecord(models.Model):
     returned = models.BooleanField(default=False)
     date_out = models.DateTimeField(auto_now_add=True)
     date_returned = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'book'],
+                condition=Q(returned=False),
+                name='unique_active_checkout_per_user_book'
+            )
+        ]
