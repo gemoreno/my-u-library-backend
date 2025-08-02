@@ -8,10 +8,10 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings
       - key: SECRET_KEY
-        value: your_django_secret_key
+        value: django-insecure-fvj%33(yz63ii9*b7o6(9t*b@#5-@ejt9&na_10*+8iwlgwzp2
       - key: DEBUG
         value: False
       - key: DATABASE_URL
         fromDatabase:
-          name: my-database-name
+          name: my-u-lib-db
           property: connectionString
