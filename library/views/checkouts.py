@@ -24,18 +24,7 @@ def list_checkouts(request):
     if not request.user.role == 'librarian':
         return Response({'error': 'Only librarians can access this.'}, status=403)
 
-    first_name = request.GET.get('first_name', '').strip()
-    last_name = request.GET.get('last_name', '').strip()
-    email = request.GET.get('email', '').strip()
-    title = request.GET.get('title', '').strip()
-
-    checkouts = CheckoutRecord.objects.select_related('user', 'book').filter(
-        user__first_name__icontains=first_name,
-        user__last_name__icontains=last_name,
-        user__email__icontains=email,
-        book__title__icontains=title,
-    )
-
+    checkouts = CheckoutRecord.objects.select_related('user', 'book').all()
     serializer = CheckoutRecordSerializer(checkouts, many=True)
     return Response(serializer.data)
 
