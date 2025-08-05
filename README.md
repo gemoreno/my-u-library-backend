@@ -10,6 +10,46 @@ It supports:
 
 ---
 
+## 🌐 Live Demo
+
+You can try the deployed app here:
+
+🔗 [My U Library on Render](https://my-u-library-frontend.onrender.com/)
+
+Use the credentials in the table below to log in as a student or librarian.
+
+---
+
+## 🔑 Test User Credentials
+
+| Email        | Password   | Role      |
+|--------------|------------|-----------|
+| s1@g.com     | lib12345   | Student   |
+| s2@g.com     | lib12345   | Student   |
+| s3@g.com     | lib12345   | Student   |
+| s4@g.com     | lib12345   | Student   |
+| l1@g.com     | lib12345   | Librarian |
+| l2@g.com     | lib12345   | Librarian |
+
+---
+
+## 🧪 Features
+
+| Feature                         | Roles              |
+|---------------------------------|--------------------|
+| 🔐 Email/password login         | All users          |
+| 🧾 View personal checkouts      | Student only       |
+| 📚 Search and view books        | All users          |
+| ➕ Add books                    | Librarian only     |
+| ↗️ Checkout books               | Student only       |
+| 🔄 Return books                 | Librarian only     |
+| 👤 Add new users                | Librarian only     |
+| 📋 View all checkouts           | Librarian only     |
+
+Role-based routing ensures users only see and access what’s relevant.
+
+---
+
 ## 🚀 Tech Stack
 
 - Python 3.10+
